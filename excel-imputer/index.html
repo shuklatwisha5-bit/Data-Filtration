@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Excel Processor Dashboard</title>
+    <!-- Modern Styling with Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 10px;
+        }
+        .table-container {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-900 min-h-screen">
+
+<!-- Top Navigation Bar -->
+<nav class="sticky top-0 z-50 glass-effect border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-600 p-2 rounded-lg shadow-indigo-200 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Backend Results Dashboard</h1>
+                <p class="text-[10px] text-indigo-600 font-bold uppercase tracking-widest">Excel Logic Visualization</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="hidden md:flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full border border-slate-200">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span class="text-[10px] font-bold text-slate-500 uppercase">System Linked</span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+    <!-- Left Column: Controls & Console -->
+    <div class="lg:col-span-4 space-y-6">
+
+        <!-- Filter Configuration Card -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
+            <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                Process Simulation
+            </h2>
+
+            <div class="space-y-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Min Math</label>
+                        <input type="number" id="mathLimit" value="80" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-semibold text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Min Science</label>
+                        <input type="number" id="sciLimit" value="80" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-semibold text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Search Student Name</label>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search..." oninput="runJavaSimulation()" class="w-full bg-slate-50 border border-slate-200 p-3 pl-10 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-semibold text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-3 top-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <button onclick="runJavaSimulation()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-100 transition-all active:scale-95 flex justify-center items-center gap-2">
+                    <span>Run Backend Filter</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="exportToCSV()" class="text-indigo-600 bg-indigo-50 hover:bg-indigo-100 text-[11px] font-bold py-3 rounded-xl transition-all uppercase tracking-widest">
+                        Export CSV
+                    </button>
+                    <button onclick="resetDashboard()" class="text-slate-400 bg-slate-50 hover:bg-slate-100 text-[11px] font-bold py-3 rounded-xl transition-all uppercase tracking-widest">
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Maven Console Mock -->
+        <div class="bg-slate-900 rounded-3xl p-6 shadow-2xl border-t-4 border-indigo-500 overflow-hidden">
+            <div class="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+                <div class="flex gap-1.5">
+                    <div class="w-2.5 h-2.5 rounded-full bg-rose-500"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+                </div>
+                <span class="text-[10px] font-mono text-slate-500 uppercase font-bold tracking-tighter">Maven Exec Terminal</span>
+            </div>
+            <div id="consoleOutput" class="h-44 overflow-y-auto font-mono text-[10px] text-indigo-300 space-y-1 custom-scrollbar">
+                <p class="text-slate-500">> mvn clean compile</p>
+                <p class="text-slate-500">> [INFO] Loading Apache POI 5.2.3...</p>
+                <p class="text-emerald-400">> [SUCCESS] Project linked successfully.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Data Visualization -->
+    <div class="lg:col-span-8 space-y-6">
+
+        <!-- Main Data Table Card -->
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+            <div class="px-8 py-6 border-b border-slate-50 flex justify-between items-center bg-white">
+                <div>
+                    <h3 class="font-bold text-slate-800">Processed Student Workbook</h3>
+                    <p class="text-xs text-slate-400 mt-0.5 font-medium">Visualizing Excel row extraction results</p>
+                </div>
+                <div class="flex items-center gap-3">
+                        <span id="rowCounter" class="bg-indigo-50 text-indigo-600 text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">
+                            0 ROWS
+                        </span>
+                </div>
+            </div>
+
+            <div class="table-container custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0 bg-white z-10">
+                    <tr class="bg-slate-50/80 backdrop-blur-sm text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        <th class="px-8 py-4">ID</th>
+                        <th class="px-8 py-4">Student Name</th>
+                        <th class="px-8 py-4 text-center">Math</th>
+                        <th class="px-8 py-4 text-center">Sci</th>
+                        <th class="px-8 py-4 text-center">Eng</th>
+                        <th class="px-8 py-4 text-right">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id="dataTableBody" class="divide-y divide-slate-50">
+                    <!-- JS Injection -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden py-24 text-center">
+                <div class="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <p class="text-slate-400 font-bold tracking-tight">Zero matches found for these thresholds.</p>
+            </div>
+        </div>
+
+        <!-- Technical Notice -->
+        <div class="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl shadow-slate-200">
+            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                <div class="bg-indigo-500/20 p-5 rounded-2xl border border-indigo-400/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="text-center md:text-left">
+                    <h4 class="font-bold text-lg mb-2 text-indigo-100">Imputation & Search Logic</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-2xl">
+                        The Java backend (<strong>ExcelImputer.java</strong>) automatically detects blank cells. In the table above, scores marked as <span class="text-rose-500 font-bold italic">0.0*</span> represent missing values that were imputed. The filter button triggers the <strong>ExcelFilter.java</strong> logic which requires both scores to exceed limits.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const workbookData = [
+        { id: "S001", name: "Alice Johnson", math: 88, sci: 92, eng: null },
+        { id: "S002", name: "Bob Smith", math: 75, sci: 81, eng: 68 },
+        { id: "S003", name: "Carol Lee", math: 95, sci: 98, eng: 90 },
+        { id: "S004", name: "David Chen", math: 62, sci: 65, eng: null },
+        { id: "S005", name: "Eva Green", math: 79, sci: 75, eng: 82 },
+        { id: "S006", name: "Frank White", math: 91, sci: null, eng: 85 },
+        { id: "S007", name: "Grace Hall", math: 84, sci: 88, eng: 80 },
+        { id: "S008", name: "Henry King", math: 70, sci: 69, eng: 73 },
+        { id: "S009", name: "Ivy Moore", math: null, sci: 94, eng: 91 },
+        { id: "S010", name: "Jack Ryan", math: 81, sci: 77, eng: 75 }
+    ];
+
+    function addToLog(message, type = 'default') {
+        const consoleBox = document.getElementById('consoleOutput');
+        const p = document.createElement('p');
+        const timestamp = new Date().toLocaleTimeString([], { hour12: false });
+        if (type === 'success') p.className = 'text-emerald-400 font-bold';
+        if (type === 'system') p.className = 'text-slate-500';
+        p.textContent = `> [${timestamp}] ${message}`;
+        consoleBox.appendChild(p);
+        consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
+
+    function renderWorkbook(data) {
+        const tbody = document.getElementById('dataTableBody');
+        const emptyState = document.getElementById('emptyState');
+        const rowCounter = document.getElementById('rowCounter');
+        tbody.innerHTML = '';
+        if (data.length === 0) {
+            emptyState.classList.remove('hidden');
+            rowCounter.textContent = "0 ROWS";
+            return;
+        }
+        emptyState.classList.add('hidden');
+        rowCounter.textContent = `${data.length} ROWS FOUND`;
+        data.forEach(student => {
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-50 transition-colors group";
+            const formatScore = (val) => val === null ? '<span class="text-rose-500 font-bold italic">0.0*</span>' : val;
+            const mLimit = parseFloat(document.getElementById('mathLimit').value) || 0;
+            const sLimit = parseFloat(document.getElementById('sciLimit').value) || 0;
+            const passes = (student.math || 0) >= mLimit && (student.sci || 0) >= sLimit;
+            tr.innerHTML = `
+                <td class="px-8 py-5 text-[10px] font-mono text-slate-400 group-hover:text-indigo-600">${student.id}</td>
+                <td class="px-8 py-5 font-bold text-slate-700 text-sm">${student.name}</td>
+                <td class="px-8 py-5 font-mono text-xs text-center">${formatScore(student.math)}</td>
+                <td class="px-8 py-5 font-mono text-xs text-center">${formatScore(student.sci)}</td>
+                <td class="px-8 py-5 font-mono text-xs text-center">${formatScore(student.eng)}</td>
+                <td class="px-8 py-5 text-right">
+                    <span class="px-3 py-1 text-[8px] font-black rounded-full uppercase tracking-widest ${passes ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-100 text-slate-400'}">
+                        ${passes ? 'Qualified' : 'Pending'}
+                    </span>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function runJavaSimulation() {
+        const mathThreshold = parseFloat(document.getElementById('mathLimit').value) || 0;
+        const sciThreshold = parseFloat(document.getElementById('sciLimit').value) || 0;
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const filteredResults = workbookData.filter(student => {
+            const mVal = student.math === null ? 0.0 : student.math;
+            const sVal = student.sci === null ? 0.0 : student.sci;
+            const matchesSearch = student.name.toLowerCase().includes(searchTerm);
+            return (mVal >= mathThreshold && sVal >= sciThreshold && matchesSearch);
+        });
+        renderWorkbook(filteredResults);
+        if (searchTerm === "") {
+            addToLog(`mvn exec:java -Dexec.mainClass="com.data.filter.ExcelFilter"`, 'system');
+            addToLog(`Filter: Math >= ${mathThreshold} AND Sci >= ${sciThreshold}`, 'success');
+        }
+    }
+
+    function exportToCSV() {
+        addToLog("Generating temporary CSV buffer...", 'system');
+        setTimeout(() => { addToLog("Export simulation successful: 'filtered_students.csv' created.", 'success'); }, 500);
+    }
+
+    function resetDashboard() {
+        addToLog("Reloading raw student_marks_input.xlsx...", 'system');
+        document.getElementById('mathLimit').value = 80;
+        document.getElementById('sciLimit').value = 80;
+        document.getElementById('searchInput').value = "";
+        renderWorkbook(workbookData);
+        addToLog("Workbook reset successfully.", 'success');
+    }
+
+    window.onload = () => {
+        renderWorkbook(workbookData);
+        addToLog("Dashboard initialized. Apache POI bridge active.", 'success');
+    };
+</script>
+</body>
+</html>>
