@@ -1,67 +1,111 @@
-# Data-Filtration
-Read, Filter &amp; Extract Clean Data from Excel using Apache POI
-# Java Excel Data Processor (Maven Backend)
+Student Data Excel Processor & Dashboard 📊
 
-This is a robust, Maven-based Java project designed to perform essential data processing tasks—specifically **data cleaning (Imputation)** and **compound filtering**—on Microsoft Excel (.xlsx) files. The project utilizes the **Apache POI** library for programmatic interaction with Excel documents.
+A robust Java-based data processing application that utilizes Apache POI to handle Excel workbooks, perform data imputation (handling missing values), and filter student records based on custom academic thresholds. It includes a modern, responsive web dashboard for visualizing results.
 
-## 📊 Project Utilities
+🚀 Features
 
-The backend contains two primary utilities, both located in the com.data.filter package, designed to be run independently via the command line.
+Excel Imputation: Automatically detects missing grade cells and imputes them (defaulting to 0.0) to prevent calculation errors.
 
-### 1. ExcelImputer (Data Cleaning)
+Advanced Filtering: Filter student records across multiple subjects (Math, Science, English) using configurable thresholds.
 
-* **Purpose:** To clean and standardize the input data for reliable analysis.
-* **Logic:** Reads the input Excel file and replaces any blank, null, or non-numeric cells in score columns (`Math`, `Science`, `English`) with a default numeric value of **0.0**.
+Apache POI Integration: Seamlessly reads and writes .xlsx files.
 
-### 2. ExcelFilter (Compound Filtering)
+Maven Architecture: Standardized project structure for easy dependency management and builds.
 
-* **Purpose:** To select specific data rows that meet complex, multi-criteria performance standards.
-* **Logic:** Applies a logical **AND** condition across two score fields. For example, it selects a student only if **(Math Score >= 85 AND Science Score >= 85)**. The specific thresholds are defined within the source code.
+Interactive Dashboard: A Tailwind CSS-powered GUI (index.html) to visualize backend processing logic and filter results dynamically.
 
-## 🛠️ Development Environment & Tools
+📂 Project Structure
 
-This section outlines the complete technology stack required to build and run the project.
+excel-imputer/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/data/filter/
+│   │   │       ├── ExcelImputer.java   # Logic for handling missing data
+│   │   │       └── ExcelFilter.java    # Logic for academic filtering
+│   │   └── resources/
+│   │       └── index.html              # Frontend visualization dashboard
+├── student_marks_input.xlsx             # Source Excel data file
+├── pom.xml                             # Maven configuration & dependencies
+└── README.md                           # Project documentation
 
-| Category | Component/Tool | Detail |
-| :--- | :--- | :--- |
-| **Language** | **Java** | Primary programming language (JDK 17+ recommended). |
-| **Build Tool** | **Apache Maven** | Manages dependencies (POI) and handles the build and execution life cycle. |
-| **Core Library** | **Apache POI** | Provides the API for reading and writing modern Excel (.xlsx) files. |
-| **IDE** | **IntelliJ IDEA / VS Code** | Recommended tools for development and debugging. |
-| **Execution App** | **CLI** | Command Line Interface (Terminal/PowerShell) used to run Maven commands. |
-| **Version Control** | **Git** | Used for tracking changes and managing source code versions on GitHub. |
 
-## ⚙️ Setup and Execution
+🛠️ Technical Stack
 
-### Prerequisites
+Backend: Java 11+
 
-You must have the following software installed on your system:
+Build Tool: Maven 3.6+
 
-1.  **Java Development Kit (JDK)**: Version 17 or compatible.
-2.  **Apache Maven**.
+Libraries: Apache POI (Excel Processing), Log4j
 
-### Project Structure
-excel-processor-backend/ ├── src/ │ └── main/ │ └── java/ │ └── com/ │ └── data/ │ └── filter/ │ ├── ExcelImputer.java │ └── ExcelFilter.java ├── pom.xml └── README.md
-### Execution Steps
+Frontend: HTML5, Tailwind CSS (CDN), JavaScript (ES6+)
 
-1.  **Place Input File:**
-    Ensure your input data file, named **`student_marks_input.xlsx`**, is placed directly in the root directory of this project.
+⚙️ Setup & Installation
 
-2.  **Run from Command Line:**
-    Navigate to the root directory in your terminal and use the appropriate Maven command:
+Prerequisites
 
-    #### A. Run Data Imputer (Data Cleaning)
+Java Development Kit (JDK) 11 or higher.
 
-    This executes `ExcelImputer` and generates the clean file, `data_imputed.xlsx`.
+Apache Maven installed.
 
-    ```bash
-    mvn clean compile exec:java -Dexec.mainClass="com.data.filter.ExcelImputer"
-    ```
+An IDE (IntelliJ IDEA recommended).
 
-    #### B. Run Compound Filter (Data Selection)
+1. Clone the Repository
 
-    This executes `ExcelFilter` and generates the filtered results file, `dual_high_scorers_output.xlsx`.
+git clone [https://github.com/yourusername/excel-imputer.git](https://github.com/yourusername/excel-imputer.git)
+cd excel-imputer
 
-    ```bash
-    mvn clean compile exec:java -Dexec.mainClass="com.data.filter.ExcelFilter"
-    ```
+
+2. Install Dependencies
+
+Run the following command to download the required Apache POI libraries:
+
+mvn clean install
+
+
+3. Running the Backend
+
+To execute the filter logic via terminal:
+
+mvn exec:java -Dexec.mainClass="com.data.filter.ExcelFilter"
+
+
+🖥️ Using the Dashboard
+
+Navigate to src/main/resources/index.html.
+
+Right-click the file in IntelliJ and select Open in Browser.
+
+Features available in the GUI:
+
+Threshold Adjustment: Change minimum Math/Science requirements.
+
+Live Search: Filter students by name.
+
+System Console: View simulated Maven build logs.
+
+Imputation Markers: Note the 0.0* markers highlighting where the Java backend filled in missing data.
+
+📝 Configuration (pom.xml)
+
+The project relies on the following key dependencies in the pom.xml:
+
+poi-ooxml: For reading/writing Excel files.
+
+log4j-core: For systematic logging.
+
+🤝 Contributing
+
+Fork the Project.
+
+Create your Feature Branch (git checkout -b feature/AmazingFeature).
+
+Commit your Changes (git commit -m 'Add some AmazingFeature').
+
+Push to the Branch (git push origin feature/AmazingFeature).
+
+Open a Pull Request.
+
+📄 License
+
+Distributed under the MIT License. See LICENSE for more information.
